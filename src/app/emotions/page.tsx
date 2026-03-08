@@ -31,29 +31,29 @@ export default function EmotionsPage() {
         <div className="py-6 flex flex-col gap-8 pb-32">
             <header className="flex flex-col gap-1">
                 <h1 className="text-3xl font-bold font-display tracking-tight">Emotion Journal</h1>
-                <p className="text-accent">Log moods, thoughts, and personal reflections.</p>
+                <p className="text-accent font-medium">Log moods, thoughts, and personal reflections.</p>
             </header>
 
             {/* Stats section */}
             <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Card className="p-5 flex flex-col gap-1">
-                    <span className="text-xs font-semibold uppercase tracking-wider text-accent leading-none mb-1">Entries</span>
-                    <p className="text-2xl font-bold">4 reflections</p>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-accent leading-none mb-1">Entries</span>
+                    <p className="text-2xl font-black">4 reflections</p>
                 </Card>
                 <Card className="p-5 flex flex-col gap-1">
-                    <span className="text-xs font-semibold uppercase tracking-wider text-accent leading-none mb-1">Avg Intensity</span>
-                    <p className="text-2xl font-bold">7.2/10</p>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-accent leading-none mb-1">Avg Intensity</span>
+                    <p className="text-2xl font-black">7.2/10</p>
                 </Card>
                 <Card className="p-5 flex flex-col gap-1">
-                    <span className="text-xs font-semibold uppercase tracking-wider text-accent leading-none mb-1">Common Mood</span>
-                    <p className="text-2xl font-bold">Focused 🎯</p>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-accent leading-none mb-1">Common Mood</span>
+                    <p className="text-2xl font-black">Focused 🎯</p>
                 </Card>
             </section>
 
             <section className="flex items-center justify-between">
                 <h2 className="text-xl font-bold font-display px-1">Today&apos;s Reflections</h2>
                 <Button
-                    className="flex items-center gap-2 rounded-full"
+                    className="flex items-center gap-2 rounded-full font-bold"
                     onClick={() => setIsAddingReflection(true)}
                 >
                     <Plus size={18} />
@@ -68,30 +68,30 @@ export default function EmotionsPage() {
             >
                 <form className="flex flex-col gap-5" onSubmit={handleSaveReflection}>
                     <div className="flex flex-col gap-2">
-                        <label className="text-sm font-medium">How are you feeling?</label>
+                        <label className="text-sm font-bold">How are you feeling?</label>
                         <Select options={moods} />
                     </div>
 
                     <div className="flex flex-col gap-2">
-                        <label className="text-sm font-medium">Emotional Intensity (1-10)</label>
+                        <label className="text-sm font-bold">Emotional Intensity (1-10)</label>
                         <Input type="range" min="1" max="10" step="1" className="h-2 cursor-pointer" />
-                        <div className="flex justify-between text-[10px] text-accent uppercase font-semibold">
+                        <div className="flex justify-between text-[10px] text-accent uppercase font-bold">
                             <span>Mild</span>
                             <span>Intense</span>
                         </div>
                     </div>
 
                     <div className="flex flex-col gap-2">
-                        <label className="text-sm font-medium">Strongest Thought</label>
+                        <label className="text-sm font-bold">Strongest Thought</label>
                         <Input placeholder="What's on your mind?" />
                     </div>
 
                     <div className="flex flex-col gap-2">
-                        <label className="text-sm font-medium">Notes</label>
+                        <label className="text-sm font-bold">Notes</label>
                         <Textarea placeholder="Any deeper context?" />
                     </div>
 
-                    <Button type="submit" className="mt-4 py-6 text-lg">Save Reflection</Button>
+                    <Button type="submit" className="mt-4 py-6 text-lg font-black">Save Reflection</Button>
                 </form>
             </Dialog>
 
@@ -104,21 +104,21 @@ export default function EmotionsPage() {
                                     {i === 1 ? '🎯' : '🧘'}
                                 </div>
                                 <div>
-                                    <h3 className="font-bold">{i === 1 ? 'Focused' : 'Calm'}</h3>
-                                    <p className="text-xs text-accent uppercase font-semibold tracking-tighter">Intensity: {i === 1 ? '8/10' : '6/10'}</p>
+                                    <h3 className="font-black text-lg">{i === 1 ? 'Focused' : 'Calm'}</h3>
+                                    <p className="text-[10px] text-accent uppercase font-bold tracking-widest">Intensity: {i === 1 ? '8/10' : '6/10'}</p>
                                 </div>
                             </div>
-                            <span className="text-xs text-accent">14:30</span>
+                            <span className="text-xs font-bold text-accent">14:30</span>
                         </div>
 
                         <div className="bg-accent/5 p-4 rounded-xl border border-accent/10 flex items-start gap-3">
                             <MessageSquare size={16} className="text-accent mt-0.5" />
-                            <p className="text-sm font-medium leading-relaxed">
+                            <p className="text-sm font-bold leading-relaxed">
                                 {i === 1 ? "Need to finish this project architecture before the end of the day." : "Started meditation and feeling much more grounded."}
                             </p>
                         </div>
 
-                        <p className="text-sm text-accent px-1">
+                        <p className="text-sm text-accent px-1 font-medium">
                             {i === 1 ? "Architecture mapping is taking more time than expected but the clarity is increasing." : "The morning was hectic but the breathwork really helped."}
                         </p>
                     </Card>

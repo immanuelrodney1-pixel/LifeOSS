@@ -1,23 +1,23 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #0B0B0B;
+  --color-primary: #000000;
   --color-secondary: #F7F7F7;
-  --color-accent: #A1A1A1;
+  --color-accent: #525252;
   --color-surface: #ffffff;
   --color-background: #FAFAFA;
-  
+
   --radius-card: 24px;
   --radius-button: 16px;
   --radius-input: 14px;
-  
+
   --font-inter: var(--font-inter);
   --font-space-grotesk: var(--font-space-grotesk);
 }
 
 :root {
   --background: #FAFAFA;
-  --foreground: #0B0B0B;
+  --foreground: #000000;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -35,7 +35,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4, .font-display {
+h1,
+h2,
+h3,
+h4,
+.font-display {
   font-family: var(--font-space-grotesk), sans-serif;
 }
 

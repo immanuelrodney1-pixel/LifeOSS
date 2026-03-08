@@ -14,6 +14,7 @@ import { Textarea } from "@/components/ui/Textarea"
 export default function TodayPage() {
     const [currentTime, setCurrentTime] = React.useState(new Date())
     const [isAddingActivity, setIsAddingActivity] = React.useState(false)
+    const [dominantThought, setDominantThought] = React.useState("")
 
     React.useEffect(() => {
         const timer = setInterval(() => setCurrentTime(new Date()), 60000)
@@ -26,61 +27,76 @@ export default function TodayPage() {
         setIsAddingActivity(false)
     }
 
+    const hours = Array.from({ length: 24 }, (_, i) => i)
+
     return (
         <div className="py-6 flex flex-col gap-8 pb-32">
             {/* Header Info */}
-            <header className="flex flex-col gap-1">
+            <header className="flex flex-col gap-4">
                 <div className="flex items-center justify-between">
                     <h1 className="text-3xl font-bold font-display tracking-tight">Today</h1>
-                    <Button variant="outline" size="sm" className="rounded-full">
+                    <Button variant="outline" size="sm" className="rounded-full font-bold">
                         {currentTime.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                     </Button>
                 </div>
-                <p className="text-accent">Log activities and track your state.</p>
+
+                {/* Dominant Thought Widget */}
+                <Card className="p-4 bg-primary text-secondary border-none">
+                    <div className="flex flex-col gap-2">
+                        <span className="text-[10px] font-bold uppercase tracking-widest opacity-60">Dominant Thought</span>
+                        <input
+                            type="text"
+                            placeholder="What's your focus right now?"
+                            className="bg-transparent border-none p-0 text-lg font-medium placeholder:opacity-30 focus:ring-0 outline-none"
+                            value={dominantThought}
+                            onChange={(e) => setDominantThought(e.target.value)}
+                        />
+                    </div>
+                </Card>
             </header>
 
             {/* Summary Cards */}
             <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                <Card className="p-4 flex flex-col gap-2">
+                <Card className="p-5 flex flex-col gap-2">
                     <div className="flex items-center gap-2 text-accent">
                         <Clock size={16} />
-                        <span className="text-xs font-semibold uppercase tracking-wider">Tracked</span>
+                        <span className="text-xs font-bold uppercase tracking-wider">Tracked</span>
                     </div>
-                    <p className="text-2xl font-bold">4.5h</p>
+                    <p className="text-2xl font-black">4.5h</p>
                     <ProgressBar value={30} className="mt-1" />
                 </Card>
 
-                <Card className="p-4 flex flex-col gap-2">
+                <Card className="p-5 flex flex-col gap-2">
                     <div className="flex items-center gap-2 text-accent">
                         <Star size={16} />
-                        <span className="text-xs font-semibold uppercase tracking-wider">Top Category</span>
+                        <span className="text-xs font-bold uppercase tracking-wider">Top Category</span>
                     </div>
-                    <p className="text-2xl font-bold truncate">Deep Work</p>
-                    <Badge variant="secondary" className="w-fit">🧠 180m</Badge>
+                    <p className="text-2xl font-black truncate">Deep Work</p>
+                    <Badge variant="secondary" className="w-fit font-bold">🧠 180m</Badge>
                 </Card>
 
-                <Card className="p-4 flex flex-col gap-2">
+                <Card className="p-5 flex flex-col gap-2">
                     <div className="flex items-center gap-2 text-accent">
                         <Brain size={16} />
-                        <span className="text-xs font-semibold uppercase tracking-wider">Mood</span>
+                        <span className="text-xs font-bold uppercase tracking-wider">Mood</span>
                     </div>
-                    <p className="text-2xl font-bold">Focused</p>
-                    <Badge variant="secondary" className="w-fit">8/10 Intensity</Badge>
+                    <p className="text-2xl font-black">Focused</p>
+                    <Badge variant="secondary" className="w-fit font-bold">8/10 Intensity</Badge>
                 </Card>
 
-                <Card className="p-4 flex flex-col gap-2">
+                <Card className="p-5 flex flex-col gap-2">
                     <div className="flex items-center gap-2 text-accent">
                         <Star size={16} />
-                        <span className="text-xs font-semibold uppercase tracking-wider">Entries</span>
+                        <span className="text-xs font-bold uppercase tracking-wider">Entries</span>
                     </div>
-                    <p className="text-2xl font-bold">12</p>
-                    <p className="text-xs text-accent">Activities today</p>
+                    <p className="text-2xl font-black">12</p>
+                    <p className="text-xs text-accent font-medium">Activities today</p>
                 </Card>
             </section>
 
-            {/* Activity Timeline Section Header */}
+            {/* Timeline Window Header */}
             <section className="flex items-center justify-between">
-                <h2 className="text-xl font-bold font-display tracking-tight">Timeline</h2>
+                <h2 className="text-xl font-bold font-display tracking-tight">Timeline Window</h2>
                 <Button
                     className="rounded-full shadow-lg h-10 w-10 p-0"
                     onClick={() => setIsAddingActivity(true)}
@@ -89,79 +105,97 @@ export default function TodayPage() {
                 </Button>
             </section>
 
+            {/* 24h Timeline Window Pane */}
+            <section className="relative h-[400px] border border-accent/10 rounded-card overflow-hidden bg-accent/5">
+                <div className="absolute inset-0 overflow-y-auto px-4 py-6 scroll-smooth">
+                    {hours.map((hour) => (
+                        <div key={hour} className="relative h-20 border-t border-accent/10 first:border-none">
+                            <span className="absolute -top-3 left-0 text-[10px] font-bold text-accent uppercase tracking-tighter">
+                                {hour === 0 ? "12 AM" : hour < 12 ? `${hour} AM` : hour === 12 ? "12 PM" : `${hour - 12} PM`}
+                            </span>
+
+                            {/* Example Activity Blocks */}
+                            {hour === 8 && (
+                                <div className="absolute top-2 left-12 right-0 bottom-2 bg-white rounded-xl shadow-sm border border-accent/5 p-3 flex items-center justify-between">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-8 h-8 rounded-lg bg-secondary flex items-center justify-center text-lg">🧠</div>
+                                        <div>
+                                            <p className="text-sm font-black leading-none">Deep Work</p>
+                                            <p className="text-[10px] font-bold text-accent">08:00 – 09:30</p>
+                                        </div>
+                                    </div>
+                                    <Badge variant="outline" className="text-[10px]">90m</Badge>
+                                </div>
+                            )}
+
+                            {hour === 12 && (
+                                <div className="absolute top-2 left-12 right-0 bottom-2 bg-white rounded-xl shadow-sm border border-accent/5 p-3 flex items-center justify-between">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-8 h-8 rounded-lg bg-secondary flex items-center justify-center text-lg">🍽️</div>
+                                        <div>
+                                            <p className="text-sm font-black leading-none">Lunch</p>
+                                            <p className="text-[10px] font-bold text-accent">12:15 – 13:00</p>
+                                        </div>
+                                    </div>
+                                    <Badge variant="outline" className="text-[10px]">45m</Badge>
+                                </div>
+                            )}
+                        </div>
+                    ))}
+
+                    {/* Current Time Indicator Overlay */}
+                    <div className="absolute left-0 right-0 border-b-2 border-red-500 z-10 opacity-50 pointer-events-none" style={{ top: `${(currentTime.getHours() * 80) + (currentTime.getMinutes() * (80 / 60)) + 24}px` }}>
+                        <div className="absolute right-0 -top-2 bg-red-500 text-white text-[8px] px-1 rounded font-bold uppercase tracking-widest">Live</div>
+                    </div>
+                </div>
+            </section>
+
             {/* Add Activity Dialog */}
             <Dialog
                 isOpen={isAddingActivity}
                 onClose={() => setIsAddingActivity(false)}
-                title="Add Activity"
+                title="Log Activity"
             >
                 <form className="flex flex-col gap-5" onSubmit={handleSaveActivity}>
                     <div className="flex flex-col gap-2">
-                        <label className="text-sm font-medium">Activity Title</label>
+                        <label className="text-sm font-bold">Activity Title</label>
                         <Input placeholder="What are you doing?" required />
                     </div>
 
                     <div className="flex flex-col gap-2">
-                        <label className="text-sm font-medium">Category</label>
+                        <label className="text-sm font-bold">Category</label>
                         <Select
                             options={[
                                 { label: "Deep Work", value: "deep-work", emoji: "🧠" },
-                                { label: "Admin", value: "admin", emoji: "📋" },
-                                { label: "Exercise", value: "exercise", emoji: "🏃" },
-                                { label: "Meals", value: "meals", emoji: "🍽️" },
-                                { label: "Social", value: "social", emoji: "🫶" },
-                                { label: "Sleep", value: "sleep", emoji: "😴" },
+                                { label: "Shallow Work", value: "shallow-work", emoji: "🖱️" },
+                                { label: "Fitness", value: "fitness", emoji: "🏃" },
+                                { label: "Walking", value: "walking", emoji: "👟" },
+                                { label: "Chores", value: "chores", emoji: "🧹" },
+                                { label: "Leisure", value: "leisure", emoji: "🎮" },
+                                { label: "Wellness", value: "wellness", emoji: "🧘" },
                             ]}
                         />
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
                         <div className="flex flex-col gap-2">
-                            <label className="text-sm font-medium">Start Time</label>
+                            <label className="text-sm font-bold">Start Time</label>
                             <Input type="time" step="300" required defaultValue="08:00" />
                         </div>
                         <div className="flex flex-col gap-2">
-                            <label className="text-sm font-medium">End Time</label>
+                            <label className="text-sm font-bold">End Time</label>
                             <Input type="time" step="300" required defaultValue="08:45" />
                         </div>
                     </div>
 
                     <div className="flex flex-col gap-2">
-                        <label className="text-sm font-medium">Notes (Optional)</label>
+                        <label className="text-sm font-bold">Notes (Optional)</label>
                         <Textarea placeholder="Add some details..." />
                     </div>
 
-                    <Button type="submit" className="mt-4 py-6 text-lg">Save Activity</Button>
+                    <Button type="submit" className="mt-4 py-6 text-lg font-black">Save Activity</Button>
                 </form>
             </Dialog>
-
-            {/* Activity List Placeholder */}
-            <section className="flex flex-col gap-4">
-                {[1, 2, 3].map((i) => (
-                    <Card key={i} className="p-5 flex items-start justify-between group">
-                        <div className="flex gap-4">
-                            <div className="w-12 h-12 rounded-2xl bg-secondary flex items-center justify-center text-2xl">
-                                {i === 1 ? '🧠' : i === 2 ? '🍽️' : '🏃'}
-                            </div>
-                            <div className="flex flex-col">
-                                <div className="flex items-center gap-2">
-                                    <span className="font-bold text-lg">
-                                        {i === 1 ? 'Deep Work' : i === 2 ? 'Lunch Break' : 'Evening Run'}
-                                    </span>
-                                    <Badge variant="outline">Manual</Badge>
-                                </div>
-                                <p className="text-accent text-sm">08:00 – 09:30 • 90m</p>
-                                {i === 1 && <p className="text-sm mt-2 text-accent italic">Working on project architecture specs.</p>}
-                            </div>
-                        </div>
-                    </Card>
-                ))}
-
-                <div className="p-8 text-center border-2 border-dashed border-accent/10 rounded-card opacity-50 flex flex-col items-center gap-2">
-                    <p className="text-sm">End of day reached</p>
-                    <Button variant="ghost" size="sm" onClick={() => setIsAddingActivity(true)}>Add more activities</Button>
-                </div>
-            </section>
         </div>
     )
 }
