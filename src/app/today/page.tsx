@@ -15,6 +15,24 @@ export default function TodayPage() {
     const [currentTime, setCurrentTime] = React.useState(new Date())
     const [isAddingActivity, setIsAddingActivity] = React.useState(false)
     const [dominantThought, setDominantThought] = React.useState("")
+    const [activities, setActivities] = React.useState([
+        { hour: 8, title: "Deep Work", timeRange: "08:00 – 09:30", cat: "Deep Work", duration: "90m", emoji: "🧠" },
+        { hour: 12, title: "Lunch", timeRange: "12:15 – 13:00", cat: "Leisure", duration: "45m", emoji: "🍽️" }
+    ])
+
+    const handleQuickLog = (activity: string, emoji: string) => {
+        const now = new Date()
+        const hour = now.getHours()
+        const newActivity = {
+            hour: hour,
+            title: activity,
+            timeRange: `${hour}:00 – ${hour + 1}:00`,
+            cat: activity,
+            duration: "60m",
+            emoji: emoji
+        }
+        setActivities([newActivity, ...activities])
+    }
 
     React.useEffect(() => {
         const timer = setInterval(() => setCurrentTime(new Date()), 60000)
@@ -40,6 +58,29 @@ export default function TodayPage() {
                     </Button>
                 </div>
 
+                {/* Quick-Log Bar (Brutal Efficiency) */}
+                <section className="flex flex-col gap-2">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-black/40 px-1">One-Tap Quick Log</span>
+                    <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
+                        {[
+                            { label: "Deep Work", emoji: "🧠", color: "bg-blue-500" },
+                            { label: "Walking", emoji: "👟", color: "bg-green-500" },
+                            { label: "Chores", emoji: "🧹", color: "bg-orange-500" },
+                            { label: "Fitness", emoji: "🏃", color: "bg-red-500" },
+                            { label: "Shallow", emoji: "🖱️", color: "bg-gray-500" },
+                        ].map((preset) => (
+                            <button
+                                key={preset.label}
+                                onClick={() => handleQuickLog(preset.label, preset.emoji)}
+                                className="flex items-center gap-2 px-4 py-3 bg-white border border-black/10 rounded-2xl shadow-sm hover:scale-105 transition-transform whitespace-nowrap group"
+                            >
+                                <span className="text-xl group-active:scale-125 transition-transform">{preset.emoji}</span>
+                                <span className="text-sm font-black text-black">{preset.label}</span>
+                            </button>
+                        ))}
+                    </div>
+                </section>
+
                 {/* Dominant Thought Widget */}
                 <Card className="p-5 bg-black text-white border-none shadow-xl">
                     <div className="flex flex-col gap-2">
@@ -57,13 +98,19 @@ export default function TodayPage() {
 
             {/* Summary Cards */}
             <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                <Card className="p-5 flex flex-col gap-2">
-                    <div className="flex items-center gap-2 text-black">
-                        <Clock size={16} />
-                        <span className="text-[10px] font-black uppercase tracking-widest">Tracked</span>
+                <Card className="p-5 flex flex-col gap-2 relative overflow-hidden group">
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2 text-black">
+                            <Clock size={16} />
+                            <span className="text-[10px] font-black uppercase tracking-widest">Tracked</span>
+                        </div>
+                        <span className="text-[10px] font-bold text-green-600 bg-green-50 px-1.5 py-0.5 rounded">+1.2h</span>
                     </div>
                     <p className="text-3xl font-black text-black">4.5h</p>
-                    <ProgressBar value={30} className="mt-1" />
+                    <div className="flex items-center justify-between mt-1">
+                        <ProgressBar value={30} className="flex-1 mr-4" />
+                        <span className="text-[8px] font-black text-black/30 uppercase">vs Yest</span>
+                    </div>
                 </Card>
 
                 <Card className="p-5 flex flex-col gap-2">
@@ -114,32 +161,19 @@ export default function TodayPage() {
                                 {hour === 0 ? "12 AM" : hour < 12 ? `${hour} AM` : hour === 12 ? "12 PM" : `${hour - 12} PM`}
                             </span>
 
-                            {/* Example Activity Blocks */}
-                            {hour === 8 && (
-                                <div className="absolute top-2 left-12 right-0 bottom-2 bg-white rounded-xl shadow-sm border border-accent/5 p-3 flex items-center justify-between">
+                            {/* Activity Blocks */}
+                            {activities.filter(a => a.hour === hour).map((act, i) => (
+                                <div key={i} className="absolute top-2 left-12 right-0 bottom-2 bg-white rounded-xl shadow-sm border border-black/10 p-3 flex items-center justify-between z-0">
                                     <div className="flex items-center gap-3">
-                                        <div className="w-8 h-8 rounded-lg bg-secondary flex items-center justify-center text-lg">🧠</div>
+                                        <div className="w-8 h-8 rounded-lg bg-black/5 flex items-center justify-center text-lg">{act.emoji}</div>
                                         <div>
-                                            <p className="text-sm font-black leading-none">Deep Work</p>
-                                            <p className="text-[10px] font-bold text-accent">08:00 – 09:30</p>
+                                            <p className="text-sm font-black leading-none text-black">{act.title}</p>
+                                            <p className="text-[10px] font-bold text-black/40">{act.timeRange}</p>
                                         </div>
                                     </div>
-                                    <Badge variant="outline" className="text-[10px]">90m</Badge>
+                                    <Badge variant="outline" className="text-[10px] font-black uppercase border-black/10 text-black">{act.duration}</Badge>
                                 </div>
-                            )}
-
-                            {hour === 12 && (
-                                <div className="absolute top-2 left-12 right-0 bottom-2 bg-white rounded-xl shadow-sm border border-accent/5 p-3 flex items-center justify-between">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-8 h-8 rounded-lg bg-secondary flex items-center justify-center text-lg">🍽️</div>
-                                        <div>
-                                            <p className="text-sm font-black leading-none">Lunch</p>
-                                            <p className="text-[10px] font-bold text-accent">12:15 – 13:00</p>
-                                        </div>
-                                    </div>
-                                    <Badge variant="outline" className="text-[10px]">45m</Badge>
-                                </div>
-                            )}
+                            ))}
                         </div>
                     ))}
 

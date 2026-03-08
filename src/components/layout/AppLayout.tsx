@@ -43,6 +43,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
     const navItems = [
         { href: "/today", icon: Clock, label: "Today" },
         { href: "/week", icon: Calendar, label: "Week" },
+        { href: "/month", icon: Calendar, label: "Month" },
         { href: "/emotions", icon: Brain, label: "Emotions" },
         { href: "/insights", icon: Sparkles, label: "Insights" },
     ]

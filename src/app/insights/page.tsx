@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Sparkles, Brain, Lightbulb, ArrowUpRight, Zap } from "lucide-react"
+import { Sparkles, Brain, Lightbulb, ArrowUpRight, Zap, TrendingUp } from "lucide-react"
 import { Card } from "@/components/ui/Card"
 import { Badge } from "@/components/ui/Badge"
 
@@ -14,68 +14,55 @@ export default function InsightsPage() {
             </header>
 
             <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Card className="p-6 bg-surface border-primary/10 flex flex-col gap-4">
+                <Card className="p-6 bg-black text-white border-none shadow-2xl flex flex-col gap-4">
                     <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2 text-primary">
-                            <Lightbulb size={18} />
-                            <span className="text-[10px] font-bold uppercase tracking-widest">Key Observation</span>
+                        <div className="flex items-center gap-2 text-white/60">
+                            <Zap size={18} />
+                            <span className="text-[10px] font-black uppercase tracking-widest">Efficiency Score</span>
                         </div>
-                        <Badge variant="secondary" className="font-bold">HIGH SIGNAL</Badge>
+                        <Badge variant="secondary" className="font-black bg-white text-black text-[10px]">84/100</Badge>
                     </div>
-                    <p className="text-xl font-black leading-relaxed">
-                        Your emotional intensity is <span className="bg-primary text-secondary px-1.5 py-0.5 rounded ml-1 italic">24% higher</span> during &quot;Deep Work&quot; sessions.
-                    </p>
-                    <div className="flex items-center gap-1 text-[10px] font-bold text-accent uppercase tracking-widest">
-                        <ArrowUpRight size={14} />
-                        <span>Correlated with &quot;Focused&quot; mood entries.</span>
-                    </div>
+                    <p className="text-3xl font-black leading-none">High Output</p>
+                    <p className="text-xs text-white/60 font-medium">Your Deep Work vs Shallow Work ratio is 14% better than last week.</p>
                 </Card>
 
-                <Card className="p-6 bg-surface border-primary/10 flex flex-col gap-4">
+                <Card className="p-6 bg-white border border-black/10 flex flex-col gap-4">
                     <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2 text-primary">
-                            <Brain size={18} />
-                            <span className="text-[10px] font-bold uppercase tracking-widest">Recurring Thought</span>
+                        <div className="flex items-center gap-2 text-black">
+                            <TrendingUp size={18} />
+                            <span className="text-[10px] font-black uppercase tracking-widest">State Correlation</span>
                         </div>
-                        <Badge variant="secondary" className="font-bold">3X THIS WEEK</Badge>
+                        <Badge variant="secondary" className="font-black text-[10px]">PEAK MOOD</Badge>
                     </div>
-                    <p className="text-xl font-black leading-relaxed italic text-primary">
-                        &quot;Need to refine the project architecture specs.&quot;
+                    <p className="text-xl font-black leading-tight text-black">
+                        You are <span className="underline decoration-4">happiest</span> on days when you track <span className="italic">Fitness</span> before 09:00 AM.
                     </p>
-                    <p className="text-[10px] font-bold text-accent uppercase tracking-widest">Last captured yesterday at 14:30</p>
+                    <p className="text-[10px] font-bold text-black/40 uppercase tracking-widest">Correlated from 14 entries.</p>
                 </Card>
             </section>
 
             <section className="flex flex-col gap-4">
-                <h2 className="text-xl font-bold font-display px-1">Behavioral Distribution</h2>
-                <div className="space-y-6 bg-accent/5 p-8 rounded-card border border-accent/10">
-                    <div className="space-y-2">
-                        <div className="flex justify-between text-[10px] font-black uppercase tracking-widest">
-                            <span>Time Mastery</span>
-                            <span className="text-primary">Polished</span>
+                <h2 className="text-xl font-bold font-display px-1 text-black">Thought Density (Month-to-Date)</h2>
+                <div className="space-y-6 bg-white p-8 rounded-card border border-black/10 shadow-sm">
+                    {[
+                        { topic: "Project Architecture", weight: 85 },
+                        { topic: "Self Improvement", weight: 60 },
+                        { topic: "Financial Planning", weight: 45 },
+                        { topic: "Vacation Ideas", weight: 30 },
+                    ].map((t) => (
+                        <div key={t.topic} className="space-y-2">
+                            <div className="flex justify-between text-[10px] font-black uppercase tracking-widest text-black">
+                                <span>{t.topic}</span>
+                                <span className="text-black/40">{t.weight}% Density</span>
+                            </div>
+                            <div className="h-2 w-full bg-black/5 rounded-full overflow-hidden">
+                                <div
+                                    className="h-full bg-black transition-all duration-1000"
+                                    style={{ width: `${t.weight}%` }}
+                                />
+                            </div>
                         </div>
-                        <div className="h-2 w-full bg-accent/10 rounded-full overflow-hidden">
-                            <div className="h-full bg-primary w-[85%]" />
-                        </div>
-                    </div>
-                    <div className="space-y-2">
-                        <div className="flex justify-between text-[10px] font-black uppercase tracking-widest">
-                            <span>Emotional Awareness</span>
-                            <span className="text-primary">Emerging</span>
-                        </div>
-                        <div className="h-2 w-full bg-accent/10 rounded-full overflow-hidden">
-                            <div className="h-full bg-primary w-[40%]" />
-                        </div>
-                    </div>
-                    <div className="space-y-2">
-                        <div className="flex justify-between text-[10px] font-black uppercase tracking-widest">
-                            <span>Reflection Consistency</span>
-                            <span className="text-primary">Strong</span>
-                        </div>
-                        <div className="h-2 w-full bg-accent/10 rounded-full overflow-hidden">
-                            <div className="h-full bg-primary w-[65%]" />
-                        </div>
-                    </div>
+                    ))}
                 </div>
             </section>
 

@@ -12,6 +12,11 @@ import { Textarea } from "@/components/ui/Textarea"
 
 export default function EmotionsPage() {
     const [isAddingReflection, setIsAddingReflection] = React.useState(false)
+    const [selectedMood, setSelectedMood] = React.useState("focused")
+    const [reflections, setReflections] = React.useState([
+        { id: 1, mood: "Focused", emoji: "🎯", intensity: "8/10", time: "14:30", thought: "Need to finish this project architecture before the end of the day.", notes: "Architecture mapping is taking more time than expected but the clarity is increasing." },
+        { id: 2, mood: "Calm", emoji: "🧘", intensity: "6/10", time: "09:00", thought: "Started meditation and feeling much more grounded.", notes: "The morning was hectic but the breathwork really helped." }
+    ])
 
     const moods = [
         { label: "Focused", value: "focused", emoji: "🎯" },
@@ -24,6 +29,21 @@ export default function EmotionsPage() {
 
     const handleSaveReflection = (e: React.FormEvent) => {
         e.preventDefault()
+        const now = new Date()
+        const timeStr = `${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`
+        const moodObj = moods.find(m => m.value === selectedMood) || moods[0]
+
+        const newReflection = {
+            id: Date.now(),
+            mood: moodObj.label,
+            emoji: moodObj.emoji,
+            intensity: "7/10", // Mocked for simplicity in this turn
+            time: timeStr,
+            thought: "New reflection logged",
+            notes: "Manually entered reflection details."
+        }
+
+        setReflections([newReflection, ...reflections])
         setIsAddingReflection(false)
     }
 
@@ -69,7 +89,7 @@ export default function EmotionsPage() {
                 <form className="flex flex-col gap-5" onSubmit={handleSaveReflection}>
                     <div className="flex flex-col gap-2">
                         <label className="text-sm font-bold">How are you feeling?</label>
-                        <Select options={moods} />
+                        <Select options={moods} value={selectedMood} onChange={(val) => setSelectedMood(val)} />
                     </div>
 
                     <div className="flex flex-col gap-2">
@@ -96,30 +116,30 @@ export default function EmotionsPage() {
             </Dialog>
 
             <div className="flex flex-col gap-4">
-                {[1, 2].map((i) => (
-                    <Card key={i} className="p-6 flex flex-col gap-4">
+                {reflections.map((ref) => (
+                    <Card key={ref.id} className="p-6 flex flex-col gap-4 border-black/10 shadow-sm">
                         <div className="flex items-start justify-between">
                             <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-xl">
-                                    {i === 1 ? '🎯' : '🧘'}
+                                <div className="w-10 h-10 rounded-full bg-black/5 flex items-center justify-center text-xl">
+                                    {ref.emoji}
                                 </div>
                                 <div>
-                                    <h3 className="font-black text-lg">{i === 1 ? 'Focused' : 'Calm'}</h3>
-                                    <p className="text-[10px] text-accent uppercase font-bold tracking-widest">Intensity: {i === 1 ? '8/10' : '6/10'}</p>
+                                    <h3 className="font-black text-lg text-black">{ref.mood}</h3>
+                                    <p className="text-[10px] text-black/40 uppercase font-black tracking-widest">Intensity: {ref.intensity}</p>
                                 </div>
                             </div>
-                            <span className="text-xs font-bold text-accent">14:30</span>
+                            <span className="text-xs font-black text-black/40">{ref.time}</span>
                         </div>
 
-                        <div className="bg-accent/5 p-4 rounded-xl border border-accent/10 flex items-start gap-3">
-                            <MessageSquare size={16} className="text-accent mt-0.5" />
-                            <p className="text-sm font-bold leading-relaxed">
-                                {i === 1 ? "Need to finish this project architecture before the end of the day." : "Started meditation and feeling much more grounded."}
+                        <div className="bg-black/5 p-4 rounded-xl border border-black/10 flex items-start gap-3">
+                            <MessageSquare size={16} className="text-black/40 mt-0.5" />
+                            <p className="text-sm font-bold leading-relaxed text-black">
+                                {ref.thought}
                             </p>
                         </div>
 
-                        <p className="text-sm text-accent px-1 font-medium">
-                            {i === 1 ? "Architecture mapping is taking more time than expected but the clarity is increasing." : "The morning was hectic but the breathwork really helped."}
+                        <p className="text-sm text-black/60 px-1 font-bold">
+                            {ref.notes}
                         </p>
                     </Card>
                 ))}
