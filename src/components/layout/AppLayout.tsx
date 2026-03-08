@@ -50,10 +50,10 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
     return (
         <div className={cn("min-h-screen flex flex-col bg-background text-foreground pb-20 md:pb-0 md:pl-64")}>
             {/* Desktop Sidebar */}
-            <aside className="hidden md:flex flex-col fixed left-0 top-0 bottom-0 w-64 border-r border-accent/10 bg-surface/50 backdrop-blur-md p-6">
+            <aside className="hidden md:flex flex-col fixed left-0 top-0 bottom-0 w-64 border-r border-black/10 bg-white p-6 shadow-sm">
                 <div className="flex items-center justify-between mb-8">
-                    <h1 className="text-xl font-bold font-display tracking-tight">LifeOS</h1>
-                    <button onClick={toggleDarkMode} className="p-2 rounded-full hover:bg-accent/10 transition-colors">
+                    <h1 className="text-xl font-black font-display tracking-tight text-black">LifeOS</h1>
+                    <button onClick={toggleDarkMode} className="p-2 rounded-full hover:bg-black/5 transition-colors text-black">
                         {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
                     </button>
                 </div>
@@ -66,12 +66,12 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
                             className={cn(
                                 "flex items-center gap-3 px-4 py-3 rounded-button transition-all",
                                 pathname === item.href
-                                    ? "bg-primary text-secondary"
-                                    : "text-accent hover:bg-accent/5 hover:text-primary"
+                                    ? "bg-black text-white shadow-md scale-[1.02]"
+                                    : "text-black/70 hover:bg-black/5 hover:text-black font-bold"
                             )}
                         >
-                            <item.icon size={20} />
-                            <span className="font-medium">{item.label}</span>
+                            <item.icon size={20} className={cn(pathname === item.href ? "stroke-[3px]" : "stroke-[2px]")} />
+                            <span className="font-bold">{item.label}</span>
                         </Link>
                     ))}
                 </nav>

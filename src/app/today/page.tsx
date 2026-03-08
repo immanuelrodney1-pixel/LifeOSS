@@ -34,20 +34,20 @@ export default function TodayPage() {
             {/* Header Info */}
             <header className="flex flex-col gap-4">
                 <div className="flex items-center justify-between">
-                    <h1 className="text-3xl font-bold font-display tracking-tight">Today</h1>
-                    <Button variant="outline" size="sm" className="rounded-full font-bold">
+                    <h1 className="text-3xl font-bold font-display tracking-tight text-black">Today</h1>
+                    <Button variant="outline" size="sm" className="rounded-full font-bold border-black text-black">
                         {currentTime.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                     </Button>
                 </div>
 
                 {/* Dominant Thought Widget */}
-                <Card className="p-4 bg-primary text-secondary border-none">
+                <Card className="p-5 bg-black text-white border-none shadow-xl">
                     <div className="flex flex-col gap-2">
-                        <span className="text-[10px] font-bold uppercase tracking-widest opacity-60">Dominant Thought</span>
+                        <span className="text-[10px] font-black uppercase tracking-widest text-white/60">Current Dominant Thought</span>
                         <input
                             type="text"
-                            placeholder="What's your focus right now?"
-                            className="bg-transparent border-none p-0 text-lg font-medium placeholder:opacity-30 focus:ring-0 outline-none"
+                            placeholder="Capture your focus..."
+                            className="bg-transparent border-none p-0 text-2xl font-black placeholder:text-white/20 focus:ring-0 outline-none"
                             value={dominantThought}
                             onChange={(e) => setDominantThought(e.target.value)}
                         />
@@ -58,47 +58,47 @@ export default function TodayPage() {
             {/* Summary Cards */}
             <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 <Card className="p-5 flex flex-col gap-2">
-                    <div className="flex items-center gap-2 text-accent">
+                    <div className="flex items-center gap-2 text-black">
                         <Clock size={16} />
-                        <span className="text-xs font-bold uppercase tracking-wider">Tracked</span>
+                        <span className="text-[10px] font-black uppercase tracking-widest">Tracked</span>
                     </div>
-                    <p className="text-2xl font-black">4.5h</p>
+                    <p className="text-3xl font-black text-black">4.5h</p>
                     <ProgressBar value={30} className="mt-1" />
                 </Card>
 
                 <Card className="p-5 flex flex-col gap-2">
-                    <div className="flex items-center gap-2 text-accent">
+                    <div className="flex items-center gap-2 text-black">
                         <Star size={16} />
-                        <span className="text-xs font-bold uppercase tracking-wider">Top Category</span>
+                        <span className="text-[10px] font-black uppercase tracking-widest">Top Category</span>
                     </div>
-                    <p className="text-2xl font-black truncate">Deep Work</p>
-                    <Badge variant="secondary" className="w-fit font-bold">🧠 180m</Badge>
+                    <p className="text-3xl font-black truncate text-black">Deep Work</p>
+                    <Badge variant="secondary" className="w-fit font-black bg-black text-white">🧠 180m</Badge>
                 </Card>
 
                 <Card className="p-5 flex flex-col gap-2">
-                    <div className="flex items-center gap-2 text-accent">
+                    <div className="flex items-center gap-2 text-black">
                         <Brain size={16} />
-                        <span className="text-xs font-bold uppercase tracking-wider">Mood</span>
+                        <span className="text-[10px] font-black uppercase tracking-widest">Mood</span>
                     </div>
-                    <p className="text-2xl font-black">Focused</p>
-                    <Badge variant="secondary" className="w-fit font-bold">8/10 Intensity</Badge>
+                    <p className="text-3xl font-black text-black">Focused</p>
+                    <Badge variant="secondary" className="w-fit font-black bg-black text-white">8/10 Intensity</Badge>
                 </Card>
 
                 <Card className="p-5 flex flex-col gap-2">
-                    <div className="flex items-center gap-2 text-accent">
+                    <div className="flex items-center gap-2 text-black">
                         <Star size={16} />
-                        <span className="text-xs font-bold uppercase tracking-wider">Entries</span>
+                        <span className="text-[10px] font-black uppercase tracking-widest">Entries</span>
                     </div>
-                    <p className="text-2xl font-black">12</p>
-                    <p className="text-xs text-accent font-medium">Activities today</p>
+                    <p className="text-3xl font-black text-black">12</p>
+                    <p className="text-[10px] text-black font-black uppercase tracking-tight">Activities today</p>
                 </Card>
             </section>
 
             {/* Timeline Window Header */}
             <section className="flex items-center justify-between">
-                <h2 className="text-xl font-bold font-display tracking-tight">Timeline Window</h2>
+                <h2 className="text-xl font-bold font-display tracking-tight text-black">Timeline Window</h2>
                 <Button
-                    className="rounded-full shadow-lg h-10 w-10 p-0"
+                    className="rounded-full shadow-lg h-10 w-10 p-0 bg-black text-white hover:bg-black/90"
                     onClick={() => setIsAddingActivity(true)}
                 >
                     <Plus size={24} />

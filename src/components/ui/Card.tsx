@@ -8,7 +8,7 @@ export function Card({ className, isGlass = false, ...props }: CardProps) {
     return (
         <div
             className={cn(
-                "rounded-card bg-surface shadow-sm border border-accent/10 overflow-hidden",
+                "rounded-card bg-surface shadow-sm border border-black/10 overflow-hidden",
                 isGlass && "glass",
                 className
             )}
